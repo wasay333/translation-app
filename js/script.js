@@ -60,5 +60,27 @@ const translationFunc = async () => {
         console.error("Error fetching translation:", error);
     }
 };
-
+icons.forEach(icon=>{
+    icon.addEventListener('click', ({target})=>{
+if(!toText.value || !fromText.value) return
+if(icon.classList.contains('fa-copy')){
+ if(target.id == 'from'){
+navigator.clipboard.writeText(fromText.value)
+ } else{
+navigator.clipboard.writeText(toText.value)
+ }  
+}  else{
+    let utterence;
+    if(target.id == "from") {
+        utterence = new SpeechSynthesisUtterance(fromText.value);
+        utterence.lang = selectTag[0].value;
+    }else{
+        utterence = new SpeechSynthesisUtterance(toText.value);
+        utterence.lang = selectTag[1].value;
+    }
+    speechSynthesis.speak(utterence);
+} 
+}
+    )
+})
 translateBtn.addEventListener('click', translationFunc);
